@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Unit 2 — Conditionals Reference Sheet</title>
+<style>
+@page { size: letter portrait; margin: 0.5in; }
+* { box-sizing: border-box; }
+body { font-family: "IBM Plex Sans", system-ui, sans-serif; color: #16233A;
+       max-width: 7.5in; margin: 0 auto; font-size: 10.5pt; line-height: 1.42; }
+header { border-bottom: 3px solid #16233A; padding-bottom: 6px; margin-bottom: 12px;
+         display: flex; justify-content: space-between; align-items: baseline; }
+h1 { font-size: 15pt; margin: 0; }
+.sub { font-size: 9pt; color: #5B6B82; }
+h2 { font-size: 11.5pt; margin: 15px 0 6px; }
+h3 { font-size: 10pt; margin: 10px 0 4px; }
+code, pre, td.mono {
+  font-family: "Cascadia Mono", Consolas, "Courier New", monospace;
+  font-variant-ligatures: none; font-feature-settings: 'liga' 0, 'calt' 0;
+}
+code { font-size: 9.6pt; background: #EEF2F7; padding: 1px 4px; border-radius: 3px; }
+pre { background: #16233A; color: #EAF0F7; padding: 10px 13px; border-radius: 5px;
+      font-size: 9.4pt; line-height: 1.5; margin: 6px 0; white-space: pre-wrap; }
+pre .c { color: #7E9C6E; }
+pre .t { color: #7FB0E8; }
+pre .a { color: #E8A33D; }
+pre .s { color: #A8D8A8; }
+pre .n { color: #E8A33D; }
+pre .x { color: #FF8FA8; }
+table { width: 100%; border-collapse: collapse; font-size: 9.6pt; margin: 6px 0; }
+th { background: #E8EDF4; text-align: left; padding: 6px 9px; font-size: 8.6pt;
+     text-transform: uppercase; letter-spacing: .07em; }
+td { padding: 5px 9px; border-bottom: 1px solid #DCE3EC; vertical-align: top; }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.box { border-left: 4px solid #E8A33D; background: #FFF8EA; padding: 9px 13px;
+       border-radius: 0 5px 5px 0; font-size: 9.6pt; margin: 8px 0; }
+.box.warn { border-left-color: #ED225D; background: #FFF0F3; }
+.box.keep { border-left-color: #4A8B5C; background: #F0F8F2; }
+footer { margin-top: 14px; padding-top: 8px; border-top: 1px solid #DCE3EC;
+         font-size: 8.6pt; color: #5B6B82; }
+ul { margin: 3px 0; padding-left: 17px; } li { margin-bottom: 2px; }
+@media screen { body { padding: 26px 18px; } }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Conditionals &mdash; <code>if</code> / <code>elif</code> / <code>else</code> &middot; <code>and</code> / <code>or</code> / <code>not</code></h1>
+  <div class="sub">CS100: Roadmap to Computing &middot; Unit 2, Lessons 1&ndash;3 &middot; Master Reference Sheet</div>
+</header>
+
+<!-- ============================================================= -->
+<!-- LESSON 1 -->
+<!-- ============================================================= -->
+
+<h2>1. Comparisons produce a value</h2>
+<div class="cols">
+  <div>
+    <table>
+      <tr><th style="width:32%">Operator</th><th>Means</th></tr>
+      <tr><td class="mono">==</td><td>equal to</td></tr>
+      <tr><td class="mono">!=</td><td>not equal to</td></tr>
+      <tr><td class="mono">&lt;</td><td>less than</td></tr>
+      <tr><td class="mono">&gt;</td><td>greater than</td></tr>
+      <tr><td class="mono">&lt;=</td><td>less than or equal</td></tr>
+      <tr><td class="mono">&gt;=</td><td>greater than or equal</td></tr>
+    </table>
+  </div>
+  <div>
+<pre>health <span class="a">=</span> <span class="n">24</span>
+
+<span class="t">print</span>(health <span class="a">&lt;</span> <span class="n">30</span>)
+<span class="c"># True</span>
+
+<span class="t">print</span>(<span class="t">type</span>(health <span class="a">&lt;</span> <span class="n">30</span>))
+<span class="c"># &lt;class 'bool'&gt;</span></pre>
+  </div>
+</div>
+<p style="margin:4px 0 0;">A comparison is <strong>not</strong> magic punctuation.
+It is an expression, exactly like <code>2 + 2</code> &mdash; it produces a value.
+That value is a <code>bool</code>.</p>
+
+<h2>2. Named booleans</h2>
+<div class="cols">
+  <div>
+<pre>is_hurt     <span class="a">=</span> health <span class="a">&lt;</span> <span class="n">30</span>
+has_shield  <span class="a">=</span> shields <span class="a">&gt;</span> <span class="n">0</span>
+can_afford  <span class="a">=</span> coins <span class="a">&gt;=</span> <span class="n">300</span></pre>
+    <p style="margin:4px 0 0;">Nothing new syntactically &mdash; just assignment.
+    But a name changes how you think about the value.</p>
+  </div>
+  <div>
+    <table>
+      <tr><th style="width:26%">Prefix</th><th>Use for</th></tr>
+      <tr><td class="mono">is_</td><td>a state &mdash; <code>is_hurt</code>, <code>is_banned</code></td></tr>
+      <tr><td class="mono">has_</td><td>possession &mdash; <code>has_shield</code>, <code>has_wins</code></td></tr>
+      <tr><td class="mono">can_</td><td>ability &mdash; <code>can_afford</code>, <code>can_post</code></td></tr>
+    </table>
+    <p style="margin:4px 0 0;">The name should read back as a yes/no question.</p>
+  </div>
+</div>
+<div class="box keep">
+  <code>hurt = health &lt; 30</code> could be holding anything. <code>is_hurt</code>
+  can only hold an answer. It is a <strong>convention</strong>, not a rule &mdash;
+  Python won't stop you &mdash; but it is the convention you are graded on.
+</div>
+
+<h2>3. <code>if</code> / <code>else</code> anatomy</h2>
+<pre><span class="t">if</span> is_hurt<span class="a">:</span>
+    <span class="t">print</span>(<span class="s">"Low health!"</span>)      <span class="c"># body</span>
+    <span class="t">print</span>(<span class="s">"Find a medkit"</span>)    <span class="c"># also body</span>
+<span class="t">else</span><span class="a">:</span>
+    <span class="t">print</span>(<span class="s">"You're fine"</span>)
+
+<span class="t">print</span>(<span class="s">"Match continues"</span>)         <span class="c"># not indented - always runs</span></pre>
+<div class="cols">
+  <div>
+    <table>
+      <tr><th style="width:34%">Term</th><th>Means</th></tr>
+      <tr><td><strong>header</strong></td><td>the <code>if</code> line &mdash; ends with <code>:</code></td></tr>
+      <tr><td><strong>body</strong></td><td>the indented lines under it</td></tr>
+      <tr><td><strong>branch</strong></td><td>one path through the whole thing</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="box keep" style="margin-top:0;">
+      <strong>Exactly one branch runs.</strong> Never both. Never neither.
+    </div>
+    <p style="margin:4px 0 0;">Indent is <strong>4 spaces</strong> &mdash; PEP 8, never tabs.
+    The indentation <em>is</em> the block. There is no closing marker.</p>
+  </div>
+</div>
+
+<h2>4. Decide, then use</h2>
+<div class="cols">
+  <div>
+<pre><span class="t">if</span> kills <span class="a">&gt;=</span> <span class="n">10</span><span class="a">:</span>
+    rank <span class="a">=</span> <span class="s">"MVP"</span>
+<span class="t">else</span><span class="a">:</span>
+    rank <span class="a">=</span> <span class="s">"Player"</span>
+
+<span class="t">print</span>(<span class="s">f"Rank: <span class="a">{</span>rank<span class="a">}</span>"</span>)</pre>
+  </div>
+  <div>
+    <div class="box keep" style="margin-top:0;">
+      Branches <strong>decide</strong> a value. Code <em>after</em> them
+      <strong>uses</strong> it. Print once.
+    </div>
+    <p style="margin:4px 0 0;">Printing inside both branches means writing it twice,
+    and it will drift out of sync the first time you change the wording.</p>
+  </div>
+</div>
+<div class="box warn">
+  <strong><code>=</code> assigns. <code>==</code> compares.</strong>
+  <code>if health = 30:</code> is a <code>SyntaxError</code>.
+  Other languages allow it; Python is protecting you.
+</div>
+
+<!-- ============================================================= -->
+<!-- LESSON 2 -->
+<!-- ============================================================= -->
+
+<h2>5. <code>elif</code> &mdash; more than two options</h2>
+<pre><span class="t">if</span> xp <span class="a">&gt;=</span> <span class="n">5000</span><span class="a">:</span>
+    role <span class="a">=</span> <span class="s">"Legend"</span>
+<span class="t">elif</span> xp <span class="a">&gt;=</span> <span class="n">1000</span><span class="a">:</span>
+    role <span class="a">=</span> <span class="s">"Veteran"</span>
+<span class="t">else</span><span class="a">:</span>
+    role <span class="a">=</span> <span class="s">"Member"</span></pre>
+<div class="cols">
+  <div>
+    <table>
+      <tr><th style="width:26%">Keyword</th><th>Condition?</th><th>Position</th></tr>
+      <tr><td class="mono">if</td><td>Yes</td><td>starts the chain</td></tr>
+      <tr><td class="mono">elif</td><td>Yes</td><td>middle &mdash; many allowed</td></tr>
+      <tr><td class="mono">else</td><td><strong>No</strong></td><td>last &mdash; optional</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="box warn" style="margin-top:0;">
+      All three keywords sit at the <strong>same indent</strong> and all end with <code>:</code>.
+      An indented <code>elif</code> is a <code>SyntaxError</code> &mdash; it lands
+      inside the body, and a body can't hold half a chain.
+    </div>
+  </div>
+</div>
+<p style="margin:4px 0 0;"><code>elif</code> means <strong>"otherwise when"</strong>.
+Read the whole chain aloud as one sentence and it becomes obvious.</p>
+
+<h2>6. First match wins</h2>
+<div class="cols">
+  <div>
+<pre>xp <span class="a">=</span> <span class="n">7500</span>
+
+<span class="t">if</span> xp <span class="a">&gt;=</span> <span class="n">1000</span><span class="a">:</span>      <span class="c"># this wins</span>
+    role <span class="a">=</span> <span class="s">"Veteran"</span>
+<span class="t">elif</span> xp <span class="a">&gt;=</span> <span class="n">5000</span><span class="a">:</span>    <span class="x"># unreachable</span>
+    role <span class="a">=</span> <span class="s">"Legend"</span>
+<span class="t">else</span><span class="a">:</span>
+    role <span class="a">=</span> <span class="s">"Member"</span></pre>
+  </div>
+  <div>
+    <div class="box warn" style="margin-top:0;">
+      No error. No warning. Just a wrong answer &mdash; a
+      <strong>logic error</strong>. That is the worst kind, because nothing
+      tells you it happened.
+    </div>
+    <p style="margin:4px 0 0;">Python checks top to bottom, takes the
+    <strong>first</strong> true branch, and skips every one after it.</p>
+  </div>
+</div>
+
+<h2>7. Ordering rules</h2>
+<div class="cols">
+  <div>
+    <h3>Overlapping branches &mdash; order matters</h3>
+    <ul>
+      <li>Most <strong>specific</strong> first</li>
+      <li>Most <strong>general</strong> last</li>
+      <li>Counting down → start with the <strong>biggest</strong></li>
+      <li>Counting up → start with the <strong>smallest</strong></li>
+    </ul>
+  </div>
+  <div>
+    <h3>No overlap &mdash; order doesn't matter</h3>
+<pre><span class="t">if</span> cmd <span class="a">==</span> <span class="s">"heal"</span><span class="a">:</span> ...
+<span class="t">elif</span> cmd <span class="a">==</span> <span class="s">"attack"</span><span class="a">:</span> ...
+<span class="t">elif</span> cmd <span class="a">==</span> <span class="s">"flee"</span><span class="a">:</span> ...</pre>
+    <p style="margin:4px 0 0;"><code>"heal"</code> is only ever <code>"heal"</code>.
+    Shuffle these and it still works.</p>
+  </div>
+</div>
+<div class="box keep">
+  Order matters <strong>only when branches overlap</strong> &mdash; when one value
+  could satisfy two conditions at once. <code>7500</code> is both
+  "over 1000" and "over 5000". A command string is exactly one word.
+</div>
+
+<h2>8. Boundaries &mdash; <code>&gt;</code> vs <code>&gt;=</code></h2>
+<div class="cols">
+  <div>
+<pre><span class="t">if</span> xp <span class="a">&gt;</span> <span class="n">1000</span><span class="a">:</span>
+    role <span class="a">=</span> <span class="s">"Veteran"</span></pre>
+    <table>
+      <tr><th>Expression</th><th>999</th><th>1000</th><th>1001</th></tr>
+      <tr><td class="mono">xp &gt; 1000</td><td>F</td><td><strong>F</strong></td><td>T</td></tr>
+      <tr><td class="mono">xp &gt;= 1000</td><td>F</td><td><strong>T</strong></td><td>T</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="box warn" style="margin-top:0;">
+      <code>&gt;</code> and <code>&gt;=</code> give different answers for
+      <strong>exactly one number</strong>: the threshold itself. Every other input
+      behaves identically, so a mistake here only shows up if you test the edge.
+    </div>
+    <p style="margin:4px 0 0;">Test <code>499</code> and <code>500</code>, not
+    <code>250</code>. A <strong>boundary value</strong> is the number sitting
+    right on the threshold.</p>
+  </div>
+</div>
+
+<h2>9. Chain, or separate <code>if</code>s?</h2>
+<div class="cols">
+  <div>
+    <h3>Alternative answers to one question → chain</h3>
+<pre><span class="t">if</span> score <span class="a">&gt;=</span> <span class="n">90</span><span class="a">:</span>    grade <span class="a">=</span> <span class="s">"A"</span>
+<span class="t">elif</span> score <span class="a">&gt;=</span> <span class="n">80</span><span class="a">:</span>  grade <span class="a">=</span> <span class="s">"B"</span>
+<span class="t">else</span><span class="a">:</span>               grade <span class="a">=</span> <span class="s">"F"</span></pre>
+  </div>
+  <div>
+    <h3>Two independent things → separate <code>if</code>s</h3>
+<pre><span class="t">if</span> is_veteran<span class="a">:</span>
+    badge <span class="a">=</span> <span class="s">" *"</span>
+<span class="t">else</span><span class="a">:</span>
+    badge <span class="a">=</span> <span class="s">""</span>
+
+<span class="t">if</span> has_wins<span class="a">:</span>
+    ranked <span class="a">=</span> <span class="s">"Eligible"</span></pre>
+  </div>
+</div>
+<div class="box warn">
+  Chain these two and <code>badge</code> steals the whole chain. When
+  <code>is_veteran</code> is <code>True</code> the second check never runs &mdash;
+  and you get an eligible player marked ineligible.
+</div>
+
+<!-- ============================================================= -->
+<!-- LESSON 3 -->
+<!-- ============================================================= -->
+
+<h2>10. <code>and</code> / <code>or</code> / <code>not</code></h2>
+<div class="cols">
+  <div>
+<pre><span class="c"># both must be true</span>
+can_play <span class="a">=</span> is_veteran <span class="t">and</span> has_wins
+
+<span class="c"># either one is enough</span>
+is_blocked <span class="a">=</span> is_banned <span class="t">or</span> is_muted
+
+<span class="c"># flip one answer</span>
+can_post <span class="a">=</span> <span class="t">not</span> is_banned</pre>
+  </div>
+  <div>
+    <p style="margin:0;">Python spells these as <strong>words</strong>. There is no
+    <code>&amp;&amp;</code>, no <code>||</code>, no <code>!</code> &mdash; those are
+    <code>SyntaxError</code>s here.</p>
+    <div class="box keep">
+      <code>and</code> and <code>or</code> join <em>two</em> answers.
+      <code>not</code> works on <em>one</em>.
+    </div>
+  </div>
+</div>
+
+<h2>11. The truth tables</h2>
+<div class="cols">
+  <div>
+    <h3><code>and</code> &mdash; demanding</h3>
+    <table>
+      <tr><td class="mono">True and True</td><td><strong>True</strong></td></tr>
+      <tr><td class="mono">True and False</td><td>False</td></tr>
+      <tr><td class="mono">False and True</td><td>False</td></tr>
+      <tr><td class="mono">False and False</td><td>False</td></tr>
+    </table>
+    <p style="margin:4px 0 0;">Only one row is True.</p>
+  </div>
+  <div>
+    <h3><code>or</code> &mdash; generous</h3>
+    <table>
+      <tr><td class="mono">True or True</td><td><strong>True</strong></td></tr>
+      <tr><td class="mono">True or False</td><td><strong>True</strong></td></tr>
+      <tr><td class="mono">False or True</td><td><strong>True</strong></td></tr>
+      <tr><td class="mono">False or False</td><td>False</td></tr>
+    </table>
+    <p style="margin:4px 0 0;">Only one row is False.</p>
+  </div>
+</div>
+
+<h2>12. Precedence &mdash; which runs first</h2>
+<div class="cols">
+  <div>
+    <div class="box keep" style="margin-top:0;">
+      <code>not</code> &mdash; tightest<br>
+      <code>and</code> &mdash; next<br>
+      <code>or</code> &mdash; loosest
+    </div>
+    <p style="margin:4px 0 0;">Same idea as <code>*</code> before <code>+</code>.
+    Your eyes read left to right; Python does not.</p>
+  </div>
+  <div>
+<pre>is_veteran <span class="a">=</span> <span class="t">True</span>
+has_wins   <span class="a">=</span> <span class="t">False</span>
+is_banned  <span class="a">=</span> <span class="t">True</span>
+
+<span class="t">print</span>(is_veteran <span class="t">or</span> has_wins <span class="t">and</span> <span class="t">not</span> is_banned)
+<span class="c">#       True    or (False   and False)</span>
+<span class="c">#       True    or  False</span>
+<span class="c">#       True</span></pre>
+  </div>
+</div>
+<div class="box warn">
+  <strong>If you have to think about it, write the parentheses.</strong>
+  Any time <code>and</code> and <code>or</code> appear in the same expression,
+  parenthesise the <code>and</code>. It costs two characters and removes the doubt.
+</div>
+
+<h2>13. The classic trap</h2>
+<div class="cols">
+  <div>
+<pre><span class="t">if</span> xp <span class="a">==</span> <span class="n">1000</span> <span class="t">or</span> <span class="n">2000</span><span class="a">:</span>    <span class="x"># always True</span>
+    <span class="t">print</span>(<span class="s">"Round number!"</span>)</pre>
+    <p style="margin:4px 0 0;">Python reads it as <code>(xp == 1000)</code> or
+    <code>(2000)</code> &mdash; and <code>2000</code> on its own is truthy.</p>
+  </div>
+  <div>
+<pre><span class="t">if</span> xp <span class="a">==</span> <span class="n">1000</span> <span class="t">or</span> xp <span class="a">==</span> <span class="n">2000</span><span class="a">:</span>  <span class="c"># works</span>
+    <span class="t">print</span>(<span class="s">"Round number!"</span>)</pre>
+    <div class="box warn" style="margin-top:0;">
+      <strong>Repeat the variable.</strong> A condition with no comparison in it
+      isn't testing anything &mdash; it's just a value, and Python reads it as
+      True or False.
+    </div>
+  </div>
+</div>
+
+<h2>14. Truthy and falsy</h2>
+<div class="cols">
+  <div>
+<pre><span class="t">print</span>(<span class="t">bool</span>(<span class="n">1</span>))       <span class="c"># True</span>
+<span class="t">print</span>(<span class="t">bool</span>(<span class="n">0</span>))       <span class="c"># False</span>
+<span class="t">print</span>(<span class="t">bool</span>(<span class="s">"nova"</span>))  <span class="c"># True</span>
+<span class="t">print</span>(<span class="t">bool</span>(<span class="s">""</span>))      <span class="c"># False</span></pre>
+    <p style="margin:4px 0 0;">These are not comparisons. Nothing is being compared &mdash;
+    Python simply has an opinion about each value.</p>
+  </div>
+  <div>
+    <table>
+      <tr><th style="width:34%">Falsy</th><th>Meaning</th></tr>
+      <tr><td class="mono">0</td><td>the number zero</td></tr>
+      <tr><td class="mono">""</td><td>the empty string</td></tr>
+      <tr><td class="mono">False</td><td>the boolean itself</td></tr>
+      <tr><td class="mono">None</td><td>the "no value" value</td></tr>
+    </table>
+    <p style="margin:4px 0 0;">Everything else is <strong>truthy</strong>.
+    That is the whole falsy list this year.</p>
+  </div>
+</div>
+
+<h2>15. Three ways to ask "is it empty?"</h2>
+<table>
+  <tr><td class="mono" style="width:32%">if username == "":</td><td>True when it <strong>is</strong> empty</td></tr>
+  <tr><td class="mono">if not username:</td><td>True when it <strong>is</strong> empty</td></tr>
+  <tr><td class="mono">if username:</td><td>True when it is <strong>not</strong> empty</td></tr>
+</table>
+<div class="box warn">
+  The third one <strong>flips</strong>. Swap it in without also swapping your
+  branches and the program does the opposite of what you meant &mdash; with no
+  error to tell you. All three are correct Python; only one means what you want.
+</div>
+
+<h2>16. Which form to use</h2>
+<div class="cols">
+  <div>
+<pre><span class="c"># text - use truthiness</span>
+<span class="t">if</span> username<span class="a">:</span>
+    ...
+
+<span class="c"># numbers - be explicit</span>
+<span class="t">if</span> coins <span class="a">&gt;</span> <span class="n">0</span><span class="a">:</span>
+    ...</pre>
+  </div>
+  <div>
+    <div class="box" style="margin-top:0;">
+      <strong>Why the difference?</strong> An empty string means "nothing here",
+      so truthiness says exactly what you mean. But <code>0</code> is a real
+      number &mdash; zero coins, zero wins, zero lives &mdash; and
+      <code>if coins:</code> quietly treats it as nothing at all.
+    </div>
+  </div>
+</div>
+
+<h2>17. Short-circuit &mdash; and why it saves you</h2>
+<div class="box keep">
+  <code>and</code> stops at the first <code>False</code>.
+  <code>or</code> stops at the first <code>True</code>. Once the answer is
+  certain, the rest of the condition is never looked at. This is called
+  <strong>short-circuit evaluation</strong>.
+</div>
+<div class="cols">
+  <div>
+    <h3>Crashes</h3>
+<pre>wins <span class="a">=</span> <span class="n">0</span>
+
+<span class="t">if</span> score <span class="a">/</span> wins <span class="a">&gt;</span> <span class="n">100</span> <span class="t">and</span> wins <span class="a">&gt;</span> <span class="n">0</span><span class="a">:</span>
+    ...        <span class="x"># ZeroDivisionError</span></pre>
+  </div>
+  <div>
+    <h3>Safe</h3>
+<pre>wins <span class="a">=</span> <span class="n">0</span>
+
+<span class="t">if</span> wins <span class="a">&gt;</span> <span class="n">0</span> <span class="t">and</span> score <span class="a">/</span> wins <span class="a">&gt;</span> <span class="n">100</span><span class="a">:</span>
+    ...        <span class="c"># never divides</span></pre>
+  </div>
+</div>
+<p style="margin:4px 0 0;">Same two checks, opposite order, and only one of them
+runs. Put the <strong>cheap, protective</strong> test first and the one that could
+fail second. You will use this pattern constantly.</p>
+
+<h2>18. <code>or</code> gives back a value, not just True</h2>
+<div class="cols">
+  <div>
+<pre>username <span class="a">=</span> <span class="t">input</span>(<span class="s">"Username: "</span>)
+display_name <span class="a">=</span> username <span class="t">or</span> <span class="s">"Guest"</span></pre>
+    <p style="margin:4px 0 0;">If the user typed nothing, <code>username</code> is
+    falsy, so <code>or</code> hands back <code>"Guest"</code> instead. A very common
+    Python habit for filling in a default.</p>
+  </div>
+  <div>
+    <div class="box warn" style="margin-top:0;">
+      <strong>Not safe on numbers.</strong>
+      <code>lives = lives or 3</code> silently turns <code>0</code> lives into
+      <code>3</code>, because <code>0</code> is falsy. Same zero trap as section 16.
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================= -->
+<!-- CLOSING -->
+<!-- ============================================================= -->
+
+<h2>19. Words you should be able to define</h2>
+<table>
+  <tr><th style="width:30%">Term</th><th>Means</th></tr>
+  <tr><td><strong>boolean</strong></td>
+      <td>A value that is either <code>True</code> or <code>False</code>.</td></tr>
+  <tr><td><strong>condition</strong></td>
+      <td>An expression that evaluates to <code>True</code> or <code>False</code>.</td></tr>
+  <tr><td><strong>comparison operator</strong></td>
+      <td><code>==</code> <code>!=</code> <code>&lt;</code> <code>&gt;</code> <code>&lt;=</code> <code>&gt;=</code> &mdash; compares two values, produces a <code>bool</code>.</td></tr>
+  <tr><td><strong>header</strong> / <strong>body</strong></td>
+      <td>The <code>if</code> line (ends with <code>:</code>) / the indented lines under it.</td></tr>
+  <tr><td><strong>branch</strong></td>
+      <td>One path through an <code>if</code>/<code>else</code>.</td></tr>
+  <tr><td><strong>chain</strong></td>
+      <td>An <code>if</code> with one or more <code>elif</code>s.</td></tr>
+  <tr><td><strong>logic error</strong></td>
+      <td>Runs fine, wrong answer, no message.</td></tr>
+  <tr><td><strong>unreachable</strong></td>
+      <td>A branch no input can ever reach.</td></tr>
+  <tr><td><strong>boundary value</strong></td>
+      <td>The exact number sitting on a threshold.</td></tr>
+  <tr><td><strong>compound condition</strong></td>
+      <td>Two or more conditions joined with <code>and</code> or <code>or</code>.</td></tr>
+  <tr><td><strong>truthy</strong> / <strong>falsy</strong></td>
+      <td>A value Python treats as <code>True</code> / <code>False</code> inside a condition.</td></tr>
+  <tr><td><strong>short-circuit</strong></td>
+      <td>Python stops evaluating as soon as the answer is certain &mdash; which is what lets an earlier test guard a later one.</td></tr>
+  <tr><td><strong>precedence</strong></td>
+      <td><code>not</code> before <code>and</code> before <code>or</code>.</td></tr>
+</table>
+
+<h2>20. Mistakes to expect</h2>
+<table>
+  <tr><th style="width:40%">Mistake</th><th>What goes wrong</th></tr>
+  <tr><td class="mono">if x = 5:</td><td><code>SyntaxError</code>. <code>=</code> assigns; <code>==</code> compares.</td></tr>
+  <tr><td class="mono">indented elif</td><td><code>SyntaxError</code>. Line it up with the <code>if</code>.</td></tr>
+  <tr><td>generic order in a chain</td><td><code>xp &gt;= 1000</code> before <code>xp &gt;= 5000</code> makes the Legend branch unreachable.</td></tr>
+  <tr><td class="mono">&gt; where &gt;= belongs</td><td>Only breaks at the threshold. Test the edge.</td></tr>
+  <tr><td>two independent checks chained</td><td>Second check silently skipped.</td></tr>
+  <tr><td class="mono">&amp;&amp; &nbsp;||&nbsp; !</td><td><code>SyntaxError</code>. Python uses <code>and</code>, <code>or</code>, <code>not</code>.</td></tr>
+  <tr><td class="mono">if xp == 1000 or 2000:</td><td>Always True. Repeat the variable.</td></tr>
+  <tr><td class="mono">if wins:</td><td>Truthiness on a number. Zero wins reads as "no".</td></tr>
+  <tr><td>printing inside both branches</td><td>Same output written twice. Decide, then print once.</td></tr>
+  <tr><td>divide before the guard</td><td><code>ZeroDivisionError</code>. The protective check runs second.</td></tr>
+</table>
+
+<h2>21. Before you submit</h2>
+<div class="box warn">
+  <ul style="margin:0;">
+    <li>Words, not symbols &mdash; <code>and</code> / <code>or</code> / <code>not</code>?</li>
+    <li>Every <code>elif</code> lined up with its <code>if</code>, every keyword ending in <code>:</code>?</li>
+    <li>Chain ordered most specific → most general?</li>
+    <li>Any <code>&gt;</code> that should be <code>&gt;=</code>? Did you test the boundary?</li>
+    <li>Variable repeated on both sides of an <code>or</code>?</li>
+    <li>Does <code>and</code> guard the things that need <em>both</em>, and <code>or</code> the things where <em>either</em> is enough?</li>
+    <li>Truthiness on text, <code>&gt; 0</code> on numbers?</li>
+    <li>Decided inside the branches, printed <strong>once</strong> after?</li>
+    <li>Ran a case where each condition is true <em>alone</em>? An <code>and</code>/<code>or</code> swap only shows up there.</li>
+  </ul>
+</div>
+
+<footer>
+  <strong>What is next.</strong> You now write four lines to set one value:
+  <code>if is_veteran:</code> &hellip; <code>else:</code> &hellip; Next lesson
+  turns that into one line &mdash; <code>badge = " *" if is_veteran else ""</code>.<br><br>
+  <strong>Keep this sheet.</strong> Comparisons, chains, <code>and</code>,
+  <code>or</code> and <code>not</code> do not change when you start writing loops.
+  They just end up inside them.
+</footer>
+
+</body>
+</html>
