@@ -27,14 +27,17 @@ Stretch (only when the four above work): is_valid, at the bottom.
 def clean_handle(text):
     """Return text without spaces at the ends, in lower case, with @ in front."""
     # Hint: text.strip() and text.lower() each give back a NEW string
-    pass
+    return "@" + text.strip().lower()
 
 
 def count_vowels(name):
     """Return how many vowels (a, e, i, o, u) are in name."""
     count = 0
     for ch in name:
-        pass        # TODO: if ch is a vowel, add 1 to count
+                # TODO: if ch is a vowel, add 1 to count
+        if ch in "aeiou":
+            count +=1
+        return count
     # TODO: return count - AFTER the loop
 
 
